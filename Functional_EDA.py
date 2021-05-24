@@ -1,11 +1,12 @@
 import pandas as pd
+import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 
 
-#############################################
-# GENERAL
-#############################################
+# ==========
+#  GENERAL
+# ==========
 
 def check_df(dataframe):
     print("##################### Shape #####################")
@@ -55,9 +56,9 @@ def grab_col_names(dataframe, cat_th=10, car_th=20):
     return cat_cols, cat_but_car, num_cols, num_but_cat
 
 
-#############################################
-# CATEGORICAL
-#############################################
+# ===============================
+#  CATEGORICAL VARIABLES ANALYSIS
+# ===============================
 
 def cat_summary(dataframe, col_name, plot=False):
     print(pd.DataFrame({col_name: dataframe[col_name].value_counts(),
@@ -87,9 +88,9 @@ def cat_summary_adv(dataframe, categorical_cols, number_of_classes=10):
         print(cols_more_classes)
 
 
-#############################################
-# NUMERICAL
-#############################################
+# ===============================
+# NUMERICAL VARIABLES ANALYSIS
+# ===============================
 
 def num_summary(dataframe, numerical_col, plot=False):
     quantiles = [0.05, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 0.95, 0.99]
@@ -116,9 +117,9 @@ def num_hist_boxplot(dataframe, numeric_col):
     print(f"{col_counter} variables have been plotted")
 
 
-#############################################
-# TARGET
-#############################################
+# =========================
+# TARGET VARIABLE ANALYSIS
+# =========================
 
 def target_summary_with_cat(dataframe, target, categorical_col):
     print(pd.DataFrame({"TARGET_MEAN": dataframe.groupby(categorical_col)[target].mean()}), end="\n\n\n")
