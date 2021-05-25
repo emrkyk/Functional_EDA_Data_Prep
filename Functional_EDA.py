@@ -132,7 +132,7 @@ def target_summary_with_num(dataframe, target, numerical_col):
     
    
 # ====================================================
-# Correlations between target and independent variables
+# Correlations between Target and Independent Variables
 # ====================================================
 
 def find_correlation(dataframe, numeric_cols, target, corr_limit=0.60):
