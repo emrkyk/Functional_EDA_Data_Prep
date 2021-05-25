@@ -127,3 +127,27 @@ def target_summary_with_cat(dataframe, target, categorical_col):
 
 def target_summary_with_num(dataframe, target, numerical_col):
     print(dataframe.groupby(target).agg({numerical_col: "mean"}), end="\n\n\n")
+    
+    
+    
+   
+# ====================================================
+# Correlations between target and independent variables
+# ====================================================
+
+def find_correlation(dataframe, numeric_cols, target, corr_limit=0.60):
+    high_correlations = []
+    low_correlations = []
+    for col in numeric_cols:
+        if col == target:
+            pass
+        else:
+            correlation = dataframe[[col, target]].corr().loc[col, target]
+            print(col, correlation)
+            if abs(correlation) > corr_limit:
+                high_correlations.append(col + ": " + str(correlation))
+            else:
+                low_correlations.append(col + ": " + str(correlation))
+    return low_correlations, high_correlations
+
+# low_corrs, high_corrs = find_correlation(df, num_cols)
