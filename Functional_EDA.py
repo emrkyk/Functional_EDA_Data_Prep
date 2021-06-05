@@ -1,11 +1,10 @@
 import pandas as pd
-import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 
 
 # ==========
-#  GENERAL
+# GENERAL
 # ==========
 
 def check_df(dataframe):
@@ -21,6 +20,7 @@ def check_df(dataframe):
     print(dataframe.isnull().sum())
     print("##################### Quantiles #####################")
     print(dataframe.quantile([0, 0.05, 0.50, 0.95, 0.99, 1]).T)
+
 
 
 def grab_col_names(dataframe, cat_th=10, car_th=20):
@@ -40,9 +40,9 @@ def grab_col_names(dataframe, cat_th=10, car_th=20):
 
     print(f"Observations: {dataframe.shape[0]}")
     print(f"Variables: {dataframe.shape[1]}")
-    print(f'cat_cols: {len(cat_cols)}')
-    print(f'num_cols: {len(num_cols)}')
-    print(f'cat_but_car: {len(cat_but_car)}')
+    print(f'cat_cols: {len(cat_cols)}  -->', cat_cols)
+    print(f'num_cols: {len(num_cols)}  -->', num_cols)
+    print(f'cat_but_car: {len(cat_but_car)}  -->', cat_but_car)
     print(
         f'num_but_cat: {len(num_but_cat)}    <---   (already included in "cat_cols". Just given for reporting purposes)')
 
@@ -57,7 +57,7 @@ def grab_col_names(dataframe, cat_th=10, car_th=20):
 
 
 # ===============================
-#  CATEGORICAL VARIABLES ANALYSIS
+# CATEGORICAL VARIABLES ANALYSIS
 # ===============================
 
 def cat_summary(dataframe, col_name, plot=False):
@@ -93,15 +93,14 @@ def cat_summary_adv(dataframe, categorical_cols, number_of_classes=10):
 # ===============================
 
 def num_summary(dataframe, numerical_col, plot=False):
-    quantiles = [0.05, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 0.95, 0.99]
+    quantiles = [0.05, 0.10, 0.20, 0.25, 0.30, 0.40, 0.50, 0.60, 0.70, 0.75, 0.80, 0.90, 0.95, 0.99]
     print(dataframe[numerical_col].describe(quantiles).T)
 
     if plot:
-        dataframe[numerical_col].hist(bins=20)
+        dataframe[numerical_col].hist(bins=30, figsize=(12, 12), density=False)
         plt.xlabel(numerical_col)
         plt.title(numerical_col)
         plt.show()
-
 
 
 def num_hist_boxplot(dataframe, numeric_col):
@@ -117,9 +116,9 @@ def num_hist_boxplot(dataframe, numeric_col):
     print(f"{col_counter} variables have been plotted")
 
 
-# =========================
+# ===============================
 # TARGET VARIABLE ANALYSIS
-# =========================
+# ===============================
 
 def target_summary_with_cat(dataframe, target, categorical_col):
     print(pd.DataFrame({"TARGET_MEAN": dataframe.groupby(categorical_col)[target].mean()}), end="\n\n\n")
@@ -127,10 +126,8 @@ def target_summary_with_cat(dataframe, target, categorical_col):
 
 def target_summary_with_num(dataframe, target, numerical_col):
     print(dataframe.groupby(target).agg({numerical_col: "mean"}), end="\n\n\n")
-    
-    
-    
-   
+
+
 # ====================================================
 # Correlations between Target and Independent Variables
 # ====================================================
@@ -150,4 +147,13 @@ def find_correlation(dataframe, numeric_cols, target, corr_limit=0.60):
                 low_correlations.append(col + ": " + str(correlation))
     return low_correlations, high_correlations
 
-# low_corrs, high_corrs = find_correlation(df, num_cols)
+# low_corrs, high_corrs = find_correlation(df, num_cols, "TARGET")
+
+
+def correlation_heatmap(dataframe):
+    _, ax = plt.subplots(figsize=(14, 12))
+    colormap = sns.diverging_palette(220, 10, as_cmap=True)
+    sns.heatmap(dataframe.corr(), annot=True, cmap=colormap)
+    plt.show()
+
+
