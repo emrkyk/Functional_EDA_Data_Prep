@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 
 # ============
-#   GENERAL
+#    GENERAL
 # ============
 
 
