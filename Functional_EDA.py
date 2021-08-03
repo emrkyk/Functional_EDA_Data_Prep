@@ -3,9 +3,9 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 
-# ==============
+# =============
 #    GENERAL
-# ==============
+# =============
 
 
 def check_df(dataframe):
